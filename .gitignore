@@ -1,0 +1,5 @@
+*.out
+*.swo
+*.swp
+README.md
+.vscode

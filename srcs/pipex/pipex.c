@@ -6,7 +6,7 @@
 /*   By: eunson <eunson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 19:01:59 by eunson            #+#    #+#             */
-/*   Updated: 2022/11/02 13:50:57 by eunson           ###   ########.fr       */
+/*   Updated: 2022/11/27 09:45:36 by eunson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	parents_proc(t_inform *inform, int *status)
 	t_pipe	iter_pipe;
 
 	iter_pipe.prev_fd = -1;
+	if (inform->here_doc)
+		iter_pipe.prev_fd = here_doc_func(inform->argv[2]);
 	while (inform->cmd_idx < inform->argc - 1)
 	{
 		pid = pipe_n_fork(&iter_pipe);
@@ -38,13 +40,13 @@ void	parents_proc(t_inform *inform, int *status)
 		}
 		if (inform->here_doc && inform->cmd_idx == 3)
 			waitpid(-1, status, 0);
-		if (iter_pipe.prev_fd != -1)
-			close(iter_pipe.prev_fd);
+		close(iter_pipe.prev_fd);
 		iter_pipe.prev_fd = iter_pipe.fd[READ];
 		inform->cmd_idx++;
 		close(iter_pipe.fd[WRITE]);
 	}
 	close(iter_pipe.fd[READ]);
+	waitpid(pid, status, 0);
 }
 
 void	change_io_fd(t_inform *inform, int io)
@@ -74,12 +76,7 @@ void	change_io_fd(t_inform *inform, int io)
 
 void	child_proc(t_inform *inform, t_pipe *iter_pipe)
 {
-	if (inform->here_doc && inform->cmd_idx == 3)
-	{
-		here_doc_func(inform->argv[2]);
-		is_dup_err(dup2(iter_pipe->fd[WRITE], STDOUT_FILENO));
-	}
-	else if (inform->cmd_idx == 2)
+	if (inform->cmd_idx == 2)
 	{
 		change_io_fd(inform, FIRST);
 		is_dup_err(dup2(iter_pipe->fd[WRITE], STDOUT_FILENO));

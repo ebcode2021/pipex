@@ -6,7 +6,7 @@
 /*   By: eunson <eunson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 14:03:04 by eunson            #+#    #+#             */
-/*   Updated: 2022/11/02 13:52:17 by eunson           ###   ########.fr       */
+/*   Updated: 2022/11/27 09:32:30 by eunson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		main(int argc, char **argv, char **envp);
 
 // pipex_utils.c
 void	init_inform(int argc, char *argv[], char *envp[], t_inform *inform);
-void	here_doc_func(char *delim);
+int		here_doc_func(char *delim);
 
 // pipex_error.c
 int		print_err(char *location, int alias);

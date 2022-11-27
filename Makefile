@@ -34,11 +34,14 @@ GNL_OBJS = $(GNL_PATH:.c=.o)
 
 $(NAME) : $(OBJS) $(GNL_OBJS)
 	@echo "$(GREEN) *** Compiling pipex with bonuses... *** $(DEFAULT)"
-	make -j -C srcs/libft
+	make -C srcs/libft
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(GNL_OBJS) $(LIBFT_A)
 	@echo "$(GREEN) *** Compile Done! *** $(DEFAULT)"
 
 all : $(NAME)
+
+bonus : $(NAME)
+
 
 clean :
 	@echo "$(RED) *** Deleting objects... ***$(DEFAULT)"

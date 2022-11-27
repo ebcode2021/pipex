@@ -6,7 +6,7 @@
 /*   By: eunson <eunson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 19:08:11 by eunson            #+#    #+#             */
-/*   Updated: 2022/11/27 09:45:06 by eunson           ###   ########.fr       */
+/*   Updated: 2022/11/27 10:11:31 by eunson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	cmd_exe(t_inform *inform)
 	exit(1);
 }
 
-int	here_doc_func(char *delim)
+void	here_doc_func(char *delim)
 {
 	int		tmp_fd;
 	char	*gnl_str;
@@ -63,7 +63,6 @@ int	here_doc_func(char *delim)
 	}
 	free(gnl_str);
 	is_dup_err(dup2(open("tmp_file", O_RDONLY), STDIN_FILENO));
-	close(tmp_fd);
 	unlink("tmp_file");
-	return (tmp_fd);
+	close(tmp_fd);
 }
